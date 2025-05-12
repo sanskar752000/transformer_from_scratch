@@ -36,7 +36,7 @@ def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_targt, ma
         decoder_mask = casual_mask(decoder_input.size(1)).type_as(source_mask).to(device)
 
         # Calculate the output of the decoder
-        decoder_output = model.decoder(encoder_output, source_mask, decoder_input, decoder_mask)
+        decoder_output = model.decode(encoder_output, source_mask, decoder_input, decoder_mask)
 
         # Get the next token
         prob = model.project(decoder_output[:, -1])
@@ -204,7 +204,7 @@ def train_model(config):
 
             # update the weights
             optimizer.step()
-            optimizer.zero_grad()
+            optimizer.zero_grad(set_to_none=True)
 
             global_step += 1
         
