@@ -206,9 +206,9 @@ def train_model(config):
             optimizer.step()
             optimizer.zero_grad(set_to_none=True)
 
+            run_validation(model, val_data_loader, tokenizer_src, tokenizer_targt, config['seq_len'], device, lambda msg: batch_iterator.write(msg), global_step, writer)
+            
             global_step += 1
-        
-        run_validation(model, val_data_loader, tokenizer_src, tokenizer_targt, config['seq_len'], device, lambda msg: batch_iterator.write(msg), global_step, writer)
         
 
         # save the model at the end of every epoch
